@@ -1,0 +1,12 @@
+# caddy-config/Caddyfile.dev
+# Development Caddy configuration - listens on port 8080
+
+:8080 {
+    # Reverse proxy requests to the LiteLLM service (litellm:4000)
+    reverse_proxy litellm:4000
+
+    # Optional: Enable access logging for debugging
+    log {
+        output stdout
+    }
+} 

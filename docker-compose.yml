@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-v1.35.13 # Pinning to a specific version for stability
+    container_name: litellm_prod
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./litellm-config/litellm-config.yaml:/app/config.yaml
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - ai_gateway
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy_prod
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy-config/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+    networks:
+      - ai_gateway
+
+  # --- Optional services (uncomment to use) ---
+  # ollama:
+  #   image: ollama/ollama
+  #   container_name: ollama
+  #   pull_policy: always
+  #   tty: true
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ollama_data:/root/.ollama
+  #   networks:
+  #     - ai_gateway
+
+volumes:
+  caddy_data:
+  caddy_config:
+  ollama_data:
+
+networks:
+  ai_gateway:
+    driver: bridge 

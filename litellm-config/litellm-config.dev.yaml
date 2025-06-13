@@ -1,0 +1,21 @@
+# litellm-config.dev.yaml
+# Development-specific configuration
+
+litellm_settings:
+  set_verbose: true
+
+model_list:
+  - model_name: gpt-3.5-turbo
+    litellm_params:
+      model: openai/gpt-3.5-turbo
+      api_key: env.OPENAI_API_KEY # Still allows testing against a real service if key is present
+  
+  - model_name: json-test-model
+    litellm_params:
+      model: bedrock/anthropic.claude-instant-v1
+      mock_response: "This is a test. You are an assistant that returns valid JSON. {\"test_key\": \"test_value\"}"
+
+  - model_name: ollama/llama3
+    litellm_params:
+      model: ollama/llama3
+      api_base: "http://ollama:11434" 
