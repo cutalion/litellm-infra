@@ -1,0 +1,40 @@
+# Development Caddyfile
+:8080 {
+    # CORS headers for development
+    header {
+        Access-Control-Allow-Origin *
+        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Access-Control-Allow-Headers "Content-Type, Authorization"
+        # Remove server info
+        -Server
+    }
+
+    # Handle CORS preflight requests
+    @options method OPTIONS
+    respond @options 204
+
+    # Optional: Basic authentication for dev (uncomment if needed)
+    # basicauth {
+    #     dev password
+    # }
+
+    # Reverse proxy to LiteLLM
+    reverse_proxy litellm:4000 {
+        # Health check
+        health_uri /health
+        health_interval 30s
+        health_timeout 10s
+        
+        # Headers
+        header_up Host {upstream_hostport}
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-For {remote_host}
+    }
+
+    # Enhanced logging for development
+    log {
+        output stdout
+        format console
+        level DEBUG
+    }
+} 

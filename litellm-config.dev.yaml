@@ -1,0 +1,28 @@
+router_mode: true
+default_model: gpt-3.5-turbo
+
+model_list:
+  # OpenAI Models (for development)
+  - model_name: gpt-3.5-turbo
+    litellm_provider: openai
+    api_key: os.environ/OPENAI_API_KEY
+  
+  - model_name: gpt-4
+    litellm_provider: openai
+    api_key: os.environ/OPENAI_API_KEY
+
+  # Mock provider for testing (uncomment if needed)
+  # - model_name: mock-gpt
+  #   litellm_provider: openai
+  #   api_base: http://localhost:8000/mock
+  #   api_key: mock-key
+
+# Development settings
+general_settings:
+  completion_model: gpt-3.5-turbo
+  max_tokens: 2048
+  
+litellm_settings:
+  set_verbose: true
+  debug: true
+  log_level: "DEBUG" 
