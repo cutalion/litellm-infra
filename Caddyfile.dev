@@ -1,0 +1,5 @@
+# Caddy reverse proxy for LiteLLM (development)
+:8080 {
+    encode gzip
+    reverse_proxy * litellm:4000
+} 

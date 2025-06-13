@@ -1,0 +1,24 @@
+# LiteLLM Configuration
+# Docs: https://docs.litellm.ai/docs/proxy/quickstart
+
+# Default model used when the client does not specify one
+default_model: openai/gpt-3.5-turbo
+
+# Enable router mode so LiteLLM proxies requests according to model_list below
+router_mode: true
+
+# List of models that this gateway can serve
+model_list:
+  # OpenAI GPT-3.5 Turbo (cloud)
+  - model_name: openai/gpt-3.5-turbo  # External name clients use
+    litellm_provider: openai
+    model_id: gpt-3.5-turbo          # Provider-specific identifier
+    # OPENAI_API_KEY should be provided via environment variable on the host
+
+# ---
+# ℹ️  To add a local Ollama backend later, uncomment and adjust the section below.
+#
+#  - model_name: ollama/llama3
+#    litellm_provider: ollama
+#    api_base: http://ollama:11434
+# --- 

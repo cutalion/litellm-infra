@@ -1,0 +1,13 @@
+# Caddy reverse proxy for LiteLLM (production)
+# Replace `llm.example.com` with a real domain that points to this server.
+llm.example.com {
+    encode gzip
+
+    # Forward all incoming requests to the LiteLLM container
+    reverse_proxy * litellm:4000
+
+    # Optional: Basic authentication (uncomment & customise)
+    # basicauth * {
+    #     alice JDJhJDEyJGFsc2pka2xqbG5rZHpzbGFqamtsamRrc2FsZGtzamRr
+    # }
+} 

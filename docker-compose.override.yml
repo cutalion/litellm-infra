@@ -1,0 +1,14 @@
+services:
+  litellm:
+    environment:
+      # Special master key for local development
+      LITELLM_MASTER_KEY: dev-key
+      # Example list of API keys allowed when running locally
+      LITELLM_API_KEYS: dev-user
+
+  caddy:
+    # Expose Caddy over port 8080 instead of 80/443 when developing locally
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./Caddyfile.dev:/etc/caddy/Caddyfile:ro 
