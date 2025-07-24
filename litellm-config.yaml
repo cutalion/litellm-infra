@@ -1,0 +1,65 @@
+model_list:
+  # OpenAI Models (if you have API key)
+  - model_name: gpt-4
+    litellm_params:
+      model: gpt-4
+      api_key: ${OPENAI_API_KEY}
+    
+  - model_name: gpt-3.5-turbo
+    litellm_params:
+      model: gpt-3.5-turbo
+      api_key: ${OPENAI_API_KEY}
+
+  # Claude Models (if you have API key)
+  - model_name: claude-3-opus
+    litellm_params:
+      model: claude-3-opus-20240229
+      api_key: ${ANTHROPIC_API_KEY}
+
+  # Example: Ollama models (uncomment when you add Ollama service)
+  # - model_name: llama3
+  #   litellm_params:
+  #     model: ollama/llama3
+  #     api_base: http://ollama:11434
+
+  # Example: Custom OpenAI-compatible endpoint
+  # - model_name: custom-model
+  #   litellm_params:
+  #     model: custom/model
+  #     api_base: http://your-api-endpoint
+  #     api_key: ${CUSTOM_API_KEY}
+
+# General Settings
+general_settings:
+  master_key: ${LITELLM_MASTER_KEY}
+  database_url: ${DATABASE_URL}
+  
+  # Logging
+  log_level: INFO
+  
+  # Optional: Add custom callbacks
+  # callbacks: ["langfuse"]
+  
+  # Optional: Set default model
+  # default_model: gpt-3.5-turbo
+
+# Router Settings (for load balancing, fallbacks, etc.)
+router_settings:
+  routing_strategy: simple-shuffle # Options: simple-shuffle, least-busy, usage-based-routing
+  
+  # Fallback models
+  fallbacks:
+    - ["gpt-4", "gpt-3.5-turbo"]
+    - ["claude-3-opus", "gpt-4"]
+  
+  # Rate limiting
+  redis_host: ${REDIS_HOST}
+  redis_port: ${REDIS_PORT}
+  redis_password: ${REDIS_PASSWORD}
+
+# Optional: Enable UI
+# ui_settings:
+#   enable: true
+#   auth:
+#     - username: admin
+#       password: ${UI_ADMIN_PASSWORD} 

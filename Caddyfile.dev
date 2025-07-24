@@ -1,0 +1,41 @@
+# Development Caddyfile for LiteLLM Gateway
+
+:8080 {
+    # Simple reverse proxy to LiteLLM
+    reverse_proxy litellm:4000 {
+        # Header manipulation
+        header_up Host {upstream_hostport}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+    }
+
+    # CORS headers for development
+    header {
+        Access-Control-Allow-Origin *
+        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Access-Control-Allow-Headers "Authorization, Content-Type"
+        Access-Control-Max-Age 86400
+    }
+
+    # Handle OPTIONS requests for CORS
+    @options {
+        method OPTIONS
+    }
+    respond @options 204
+
+    # Logging to stdout
+    log {
+        output stdout
+        format console
+        level DEBUG
+    }
+
+    # Enable compression
+    encode gzip
+
+    # Simple error handling
+    handle_errors {
+        respond "{http.error.status_code} - {http.error.status_text}" {http.error.status_code}
+    }
+} 

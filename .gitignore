@@ -1,0 +1,44 @@
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development
+
+# Logs
+logs/
+*.log
+
+# Caddy data
+caddy_data/
+caddy_config/
+
+# Database files
+*.db
+*.sqlite
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Docker override for local development
+docker-compose.override.yml.local
+
+# Certificates (if any)
+*.pem
+*.key
+*.crt
+
+# Backup files
+*.bak
+*.backup 

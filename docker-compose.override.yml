@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  litellm:
+    environment:
+      - LITELLM_MASTER_KEY=dev-master-key-123456789
+      - LITELLM_LOG=DEBUG
+      - LITELLM_MODE=development
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./litellm-config.yaml:/app/config.yaml:ro
+      - ./logs:/app/logs
+
+  caddy:
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./Caddyfile.dev:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      - CADDY_ADMIN=0.0.0.0:2019 
